@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Jon Hadfield
+  description: A role to install nginx
+  company:
+  license: MIT
+  min_ansible_version: 1.6
+  platforms:
+  - name: EL
+    versions:
+    - all
+  categories:
+  - web
+
+dependencies: []
