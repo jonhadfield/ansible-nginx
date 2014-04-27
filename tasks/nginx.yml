@@ -18,14 +18,14 @@
 
 # Offline Install
 - name: offline install | copy and extract nginx installation
-  unarchive: src={{ nginx_installer_path }}/nginx-{{ nginx_version }}.tar.gz dest={{ nginx_base_install_dir }}/ mode=0700 creates={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/sbin/nginx
+  unarchive: src={{ nginx_installer_path }}/nginx-{{ nginx_version }}.tar.gz dest={{ nginx_base_install_dir }}/ creates={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/sbin/nginx
   notify:
     - restart nginx
   when: not nginx_online_install
 
 # Configure
 - name: configure nginx 
-  template: src=nginx.conf.j2 dest={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/conf/nginx.conf owner=nginx group=nginx mode=0755
+  template: src=nginx.conf.j2 dest={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/conf/nginx.conf owner=nginx group=nginx mode=0750
   notify:
     - restart nginx
 - name: create servers and ssl directories
@@ -39,11 +39,7 @@
     - restart nginx
 # Prepare runtime
 - name: create nginx logs directory
-  file: dest={{ nginx_base_logs_dir }}/nginx state=directory
-- name: grant directory permissions to nginx user for installation directory
-  file: path={{ nginx_base_install_dir }}/nginx-{{ nginx_version }} owner=nginx group=nginx recurse=true
-- name: grant directory permissions to nginx user for logs directory
-  file: path={{ nginx_base_logs_dir }}/nginx owner=nginx group=nginx
+  file: dest={{ nginx_base_logs_dir }}/nginx state=directory owner=nginx group=nginx mode=0750
 - name: create symlink to nginx installation
   file: src={{ nginx_base_install_dir }}/nginx-{{ nginx_version }} path={{ nginx_base_install_dir }}/nginx state=link
 - name: start nginx and ensure started on boot
