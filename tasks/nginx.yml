@@ -18,7 +18,7 @@
 
 # Offline Install
 - name: offline install | copy and extract nginx installation
-  unarchive: src={{ nginx_installer_path }}/nginx-{{ nginx_version }}.tar.gz dest={{ nginx_base_install_dir }}/ creates={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/sbin/nginx
+  unarchive: src={{ nginx_installer_path }} dest={{ nginx_base_install_dir }}/ creates={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/sbin/nginx
   notify:
     - restart nginx
   when: not nginx_online_install
