@@ -23,6 +23,10 @@
     - restart nginx
   when: not nginx_online_install
 
+# Generate teardown
+- name: generate teardown script
+  template: src=teardown_nginx.sh.j2 dest={{ nginx_base_install_dir }}/teardown_nginx_{{ nginx_version }}.sh owner=root group=root mode=0750
+
 # Configure
 - name: configure nginx 
   template: src=nginx.conf.j2 dest={{ nginx_base_install_dir }}/nginx-{{ nginx_version }}/conf/nginx.conf owner=nginx group=nginx mode=0750
