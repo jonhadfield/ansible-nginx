@@ -45,7 +45,7 @@
 - name: create nginx logs directory
   file: dest={{ nginx_base_logs_dir }}/nginx state=directory owner=nginx group=nginx mode=0750
 - name: create symlink to nginx installation
-  file: src={{ nginx_base_install_dir }}/nginx-{{ nginx_version }} path={{ nginx_base_install_dir }}/nginx state=link
+  file: src={{ nginx_base_install_dir }}/nginx-{{ nginx_version }} path={{ nginx_base_install_dir }}/nginx state=link force=yes
 - name: start nginx and ensure started on boot
   service: name=nginx state=started enabled=yes
 
