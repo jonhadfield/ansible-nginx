@@ -41,6 +41,13 @@
   template: src=nginx-sysvinit.j2 dest=/etc/init.d/nginx owner=root group=root mode=0755
   notify:
     - restart nginx
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+- name: install nginx startup script (Ubuntu)
+  template: src=nginx-sysvinit-ubuntu.j2 dest=/etc/init.d/nginx owner=root group=root mode=0755
+  notify:
+    - restart nginx
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
 # Prepare runtime
 - name: create nginx logs directory
   file: dest={{ nginx_base_logs_dir }}/nginx state=directory owner=nginx group=nginx mode=0750
